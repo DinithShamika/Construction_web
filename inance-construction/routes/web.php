@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -19,22 +23,17 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
 Route::view('/about', 'about')->name('about');
 Route::view('/services', 'services')->name('services');
 Route::view('/contact', 'contact')->name('contact');
-Route::resource('clients', ClientController::class)->middleware(['auth', 'admin']);
-Route::resource('staff', StaffController::class)->middleware(['auth', 'admin']);
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+    Route::resource('clients', ClientController::class);
+    Route::resource('staff', StaffController::class);
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 });
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-use App\Http\Controllers\ContactController;
-
-Route::get('/contact', [ContactController::class, 'show'])->name('contact');
-Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');

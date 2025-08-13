@@ -16,9 +16,10 @@ class SendWelcomeEmail
     public function handle(Registered $event): void
     {
         try {
-            Mail::to($event->user->email)->send(new WelcomeCustomerMail($event->user));
+            Mail::to($event->user->email)
+                ->send(new WelcomeCustomerMail($event->user));
         } catch (\Exception $e) {
-            // Email will be logged, registration continues
+            \Log::error('Failed to send welcome email: ' . $e->getMessage());
         }
     }
 }

@@ -32,12 +32,12 @@ class ContactController extends Controller
             'user_id' => auth()->id(), // Link to user if logged in
         ]);
 
-        // Send email notification
+        // Send email notification to page owner
         try {
-            Mail::to('info@inanceconstruction.com')
+            Mail::to(config('mail.from.address'))
                 ->send(new ContactFormMail($request->all()));
         } catch (\Exception $e) {
-            // Email will be logged to storage/logs/laravel.log
+            Log::error('Failed to send contact email: ' . $e->getMessage());
         }
 
         return back()->with('success', 'Thank you for your inquiry! We will get back to you within 24 hours.');

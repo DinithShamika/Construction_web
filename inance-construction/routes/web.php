@@ -27,6 +27,12 @@ require __DIR__.'/auth.php';
 
 Route::view('/about', 'about')->name('about');
 Route::view('/services', 'services')->name('services');
+Route::view('/services/residential', 'services.residential')->name('services.residential');
+Route::view('/services/commercial', 'services.commercial')->name('services.commercial');
+Route::view('/services/renovation', 'services.renovation')->name('services.renovation');
+Route::view('/services/industrial', 'services.industrial')->name('services.industrial');
+Route::view('/services/project-management', 'services.project-management')->name('services.project-management');
+Route::view('/services/green-building', 'services.green-building')->name('services.green-building');
 Route::view('/contact', 'contact')->name('contact');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');

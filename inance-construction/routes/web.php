@@ -53,9 +53,18 @@ Route::post('/design-upload', function (\Illuminate\Http\Request $request) {
     \App\Models\ContactMessage::create([
         'name' => $request->name,
         'email' => $request->email,
+        'phone' => '',
         'project_type' => $request->project_type,
         'message' => $request->description . ' | Budget: ' . $request->budget
     ]);
+    
+    // Send email to admin
+    try {
+        \Mail::to(config('mail.from.address'))
+            ->send(new \App\Mail\ContactFormMail($request->all()));
+    } catch (\Exception $e) {
+        \Log::error('Failed to send design submission email: ' . $e->getMessage());
+    }
     
     return redirect()->route('design.upload')->with('success', 'Design submitted successfully! We will contact you soon.');
 })->name('design.submit');

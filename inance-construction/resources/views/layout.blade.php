@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <a href="{{ route('home') }}" class="font-bold text-2xl hover:text-blue-200 transition">
-                    D.M.B Construction
+                    INANCE Construction
                 </a>
                 <div class="hidden md:flex space-x-6 items-center">
                     <a href="{{ route('about') }}" class="hover:text-blue-200 transition font-medium">About</a>

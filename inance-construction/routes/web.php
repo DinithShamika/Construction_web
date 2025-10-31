@@ -29,7 +29,10 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::view('/about', 'about')->name('about');
-Route::view('/services', 'services')->name('services');
+Route::get('/services', function () {
+    $services = \App\Models\Service::all();
+    return view('services', compact('services'));
+})->name('services');
 Route::view('/services/residential', 'services.residential')->name('services.residential');
 Route::view('/services/commercial', 'services.commercial')->name('services.commercial');
 Route::view('/services/renovation', 'services.renovation')->name('services.renovation');
@@ -116,7 +119,7 @@ Route::post('/admin/register', function (\Illuminate\Http\Request $request) {
     return redirect()->route('admin.dashboard');
 })->name('admin.register.submit');
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
